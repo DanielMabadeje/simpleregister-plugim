@@ -35,10 +35,15 @@
         $this->sanitizePost();
         $data = $_POST;
 
+        var_dump($_POST['agree_checkbox']);
+        // die;
         if ($_POST['user_pass'] != $_POST['confirm_pass']) {
             global $error;
             $error = new WP_Error();
             $error->message = "Passwords Do not match";
+            echo "<script>alert('Registration Failed: Passwords Do not match')</script>";
+        } elseif ($_POST['agree_checkbox'] != "on") {
+            echo "<script>alert('Registration Failed: Tick Checkbox to continue')</script>";
         } else {
 
             $results = $this->customRegistration($data);
@@ -46,7 +51,7 @@
             if ($results) {
                 echo "<script>alert('Registered Successfully')</script>";
             } else {
-                echo "<script>alert('Registration Failed')</script>";
+                echo "<script>alert('Registration Failed: Something went wrong')</script>";
     ?>
                 <center>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -123,7 +128,7 @@
 
                         <div class="custom-control custom-checkbox mt-2 mb-1">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="customCheckb1">
+                                <input type="checkbox" class="form-check-input" id="customCheckb1" name="agree_checkbox">
                                 <label class="form-check-label" for="customCheckb1">
                                     I agree <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and
                                         conditions</a>
